@@ -39,9 +39,9 @@ def plots_with_severity_groups(df1, df2, ylab, title, save_loc):
     ax.bar(x2, y2, color='tomato', width=-bar_width, align='edge', label='Severe')
     plt.xticks(rotation=45, fontsize=14, horizontalalignment='center')
     ax.set_ylabel(ylab, fontsize=15)
-    ax.set_title(title, fontsize=18)
+    ax.set_title(title, fontsize=20)
     fig.tight_layout()
-    ax.legend()
+    ax.legend(fontsize= 14)
     plt.savefig(save_loc, dpi=150, bbox_inches = 'tight')
 
 def plots_with_severity_groups_ratios(df1, df2, ylab, title, save_loc):
@@ -57,9 +57,9 @@ def plots_with_severity_groups_ratios(df1, df2, ylab, title, save_loc):
     ax.bar(x2, (y2/(y1+y2)), color='tomato', width=-bar_width, align='edge', label='Severe')
     plt.xticks(rotation=45, fontsize=14, horizontalalignment='center')
     ax.set_ylabel(ylab, fontsize=15)
-    ax.set_title(title, fontsize=18)
+    ax.set_title(title, fontsize=20)
     fig.tight_layout()
-    ax.legend()
+    ax.legend(fontsize= 14)
     plt.savefig(save_loc, dpi=150, bbox_inches = 'tight')
 
 
