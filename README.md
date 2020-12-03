@@ -5,7 +5,7 @@
 ## Background & Goal:
 Road Traffic Accidents (RTA)s are a major cause of death globally, leading to around 1.25 million deaths annually. In the United Kingdom, the UK Department of Transport [(gov.uk)](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data) provides detailed statistics about personal injury road accidents, vehicles and casualties involved. Most of the statistics are based on road accidents reported to the police (Stats19). 
 
-The goal of this repository is to help emergency services identify the key elements leading to severe accidents, hopefully reducing tragedies and statistics alike.
+The goal of this repository is to help emergency services identify the key elements leading to severe accidents, helping staffing needs of where and when they are most needed. hopefully reducing tragedies and statistics alike.
 
 ## Data:
 
@@ -17,10 +17,14 @@ This data is obtained from the UK Department of Transport [(gov.uk)](https://dat
 
 When looking at this data and its 135 columns, many variables are left empty such as, whether there was a property damage, or are only included in more recent years. Since the data set is so large, I want to focus on terrorist attacks with a minimum number of deaths. For example, when I filter the data to attacks with one or more deaths, the results decrease more than half to just over 80,000. Additionally, the data from the year 1993 was not included in the large dataset. Instead, I had to import the 1993 data directly and merge it with the home data. For my research, I selected the columns most relevant towards my analysis and renamed them in a new data frame. The table below shows my sorted and filtered dataframe.
 
-| Event_ID    | Year | Month | Day | Country       | Region         | AttackType        | Target                | Fatalities | Wounded | Summary                                           | Group   | Target_Type         | Weapon_Type | Motive |
-|-------------|------|-------|-----|---------------|----------------|-------------------|-----------------------|------------|---------|---------------------------------------------------|---------|---------------------|-------------|--------|
-| 1.97001E+11 | 1970 | 1     | 2   | United States | North America  | Bombing/Explosion | Edes Substation       | 0          | 0       | 1/2/1970: Unknown perpetrators detonated explo... | Black Nationalists | Utilities           | Explosives  | NaN    |
-| 1.97001E+11 | 1970 | 1     | 8   | Italy         | Western Europe | Hijacking         | Flight 802 Boeing 707 | 0          | 3       | NaN                                               | Unknown | Airports & Aircraft | Firearms    | NaN    |
+|   | Accident_Index | Longitude | Latitude  | Accident_Severity | Number_of_Vehicles | Number_of_Casualties | Date   | Time  | Road_Type          | Speed_limit | Weather_Conditions      | Light_Conditions                        | Road_Surface_Conditions | Urban_or_Rural_Area |
+|---|----------------|-----------|-----------|-------------------|--------------------|----------------------|--------|-------|--------------------|-------------|-------------------------|-----------------------------------------|-------------------------|---------------------|
+| 0 | 200901BS70001  | -0.201349 | 51.512273 | 1                 | 2                  | 1                    | 1/1/09 | 15:11 | One way street     | 30          | Fine without high winds | Daylight: Street light present          | Dry                     | 1                   |
+| 1 | 200901BS70002  | -0.199248 | 51.514399 | 1                 | 2                  | 11                   | 5/1/09 | 10:59 | Single carriageway | 30          | Fine without high winds | Daylight: Street light present          | Wet/Damp                | 1                   |
+| 2 | 200901BS70003  | -0.179599 | 51.486668 | 0                 | 2                  | 1                    | 4/1/09 | 14:19 | Single carriageway | 30          | Fine without high winds | Daylight: Street light present          | Dry                     | 1                   |
+| 3 | 200901BS70004  | -0.20311  | 51.507804 | 1                 | 2                  | 1                    | 5/1/09 | 8:10  | Single carriageway | 30          | Other                   | Daylight: Street light present          | Frost/Ice               | 1                   |
+| 4 | 200901BS70005  | -0.173445 | 51.482076 | 1                 | 2                  | 1                    | 6/1/09 | 17:25 | Single carriageway | 30          | Fine without high winds | Darkness: Street lights present and lit | Dry                     | 1                   |
+
 
 ## Approach and Goal:
 * Explore how the amounts of people killed are influenced by country/region, target, and attack type
