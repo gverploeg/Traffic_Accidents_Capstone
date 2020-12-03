@@ -9,80 +9,56 @@ The goal of this repository is to help emergency services identify the key eleme
 
 ## Data:
 
-This data is obtained from the UK Department of Transport [(gov.uk)](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). It records traffic accidents around the UK from 1970 through 2017. There are over 183,000 records and 135 columns such as date, location, number killed, number wounded, attack type, and target type.
+Data is made up of two datasets that recorded traffic accidents around the UK from 2009-2011 and 2012-2014. There are over 900,000 records and over 30 different features.
 
-* Includes information on more than 75,000 bombings, 17,000 assassinations, and 9,000 kidnappings since 1970
-* Includes information on at least 45 variables for each case, with more recent incidents including information on more than 120 variables
-* Over 4,000,000 news articles and 25,000 news sources were reviewed to collect incident data from 1998 to 2015 alone
+Features are broken down into Categorical and Numerical Data. Below are some categorical breakdowns:
 
-When looking at this data and its 135 columns, many variables are left empty such as, whether there was a property damage, or are only included in more recent years. Since the data set is so large, I want to focus on terrorist attacks with a minimum number of deaths. For example, when I filter the data to attacks with one or more deaths, the results decrease more than half to just over 80,000. Additionally, the data from the year 1993 was not included in the large dataset. Instead, I had to import the 1993 data directly and merge it with the home data. For my research, I selected the columns most relevant towards my analysis and renamed them in a new data frame. The table below shows my sorted and filtered dataframe.
-
-|   | Accident_Index | Longitude | Latitude  | Accident_Severity | Number_of_Vehicles | Number_of_Casualties | Date   | Time  | Road_Type          | Speed_limit | Weather_Conditions      | Light_Conditions                        | Road_Surface_Conditions | Urban_or_Rural_Area |
-|---|----------------|-----------|-----------|-------------------|--------------------|----------------------|--------|-------|--------------------|-------------|-------------------------|-----------------------------------------|-------------------------|---------------------|
-| 0 | 200901BS70001  | -0.201349 | 51.512273 | 1                 | 2                  | 1                    | 1/1/09 | 15:11 | One way street     | 30          | Fine without high winds | Daylight: Street light present          | Dry                     | 1                   |
-| 1 | 200901BS70002  | -0.199248 | 51.514399 | 1                 | 2                  | 11                   | 5/1/09 | 10:59 | Single carriageway | 30          | Fine without high winds | Daylight: Street light present          | Wet/Damp                | 1                   |
-| 2 | 200901BS70003  | -0.179599 | 51.486668 | 0                 | 2                  | 1                    | 4/1/09 | 14:19 | Single carriageway | 30          | Fine without high winds | Daylight: Street light present          | Dry                     | 1                   |
-| 3 | 200901BS70004  | -0.20311  | 51.507804 | 1                 | 2                  | 1                    | 5/1/09 | 8:10  | Single carriageway | 30          | Other                   | Daylight: Street light present          | Frost/Ice               | 1                   |
-| 4 | 200901BS70005  | -0.173445 | 51.482076 | 1                 | 2                  | 1                    | 6/1/09 | 17:25 | Single carriageway | 30          | Fine without high winds | Darkness: Street lights present and lit | Dry                     | 1                   |
+* Road Surface: Dry, Wet or damp, Snow, Frost or ice, Flood over 3cm. deep, Oil or diesel
+* Weather: Fine no high winds, Raining no high winds, Snowing no high winds, Fine + high winds, Fog or mist
+* Light Conditions: Daylight, Darkness - lights lit, Darkness - lights unlit
+* Pedestrian Crossing Physical: Zebra, Footbridge or subway, Pedestrian phase at traffic signal junction
+* Road Type: Roundabout, One way street, Dual carriageway, Single carriageway, Slip road
 
 
-## Approach and Goal:
-* Explore how the amounts of people killed are influenced by country/region, target, and attack type
+After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, The breakdown for Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severee (0). The table below shows my sorted and filtered dataframe. 
+
+|   | Accident_Index | Police_Force | Longitude | Latitude  | Accident_Severity | Number_of_Vehicles | Number_of_Casualties | Date   | Time  | Road_Type          | Speed_limit | Weather_Conditions      | Pedestrian_Crossing-Physical_Facilities     | Light_Conditions                        | Road_Surface_Conditions | Urban_or_Rural_Area | Did_Police_Officer_Attend_Scene_of_Accident |
+|---|----------------|--------------|-----------|-----------|-------------------|--------------------|----------------------|--------|-------|--------------------|-------------|-------------------------|---------------------------------------------|-----------------------------------------|-------------------------|---------------------|---------------------------------------------|
+| 0 | 200901BS70001  | 1            | -0.201349 | 51.512273 | 1                 | 2                  | 1                    | 1/1/09 | 15:11 | One way street     | 30          | Fine without high winds | No physical crossing within 50 meters       | Daylight: Street light present          | Dry                     | 1                   | Yes                                         |
+| 1 | 200901BS70002  | 1            | -0.199248 | 51.514399 | 1                 | 2                  | 11                   | 5/1/09 | 10:59 | Single carriageway | 30          | Fine without high winds | Zebra crossing                              | Daylight: Street light present          | Wet/Damp                | 1                   | Yes                                         |
+| 2 | 200901BS70003  | 1            | -0.179599 | 51.486668 | 0                 | 2                  | 1                    | 4/1/09 | 14:19 | Single carriageway | 30          | Fine without high winds | No physical crossing within 50 meters       | Daylight: Street light present          | Dry                     | 1                   | Yes                                         |
+| 3 | 200901BS70004  | 1            | -0.20311  | 51.507804 | 1                 | 2                  | 1                    | 5/1/09 | 8:10  | Single carriageway | 30          | Other                   | Pedestrian phase at traffic signal junction | Daylight: Street light present          | Frost/Ice               | 1                   | Yes                                         |
+| 4 | 200901BS70005  | 1            | -0.173445 | 51.482076 | 1                 | 2                  | 1                    | 6/1/09 | 17:25 | Single carriageway | 30          | Fine without high winds | No physical crossing within 50 meters       | Darkness: Street lights present and lit | Dry                     | 1                   | Yes                                         |
+
+## EDA:
+Start and see where outside research and intuition could take me
+
+Performed Feature Engineering with regards to Inferential Regression
+
+Inferential Assumptions:
+1.	Linearity: the relationship between the X and the y can be modeled linearly 
+2.	Independence: the residuals should be independent from each other 
+3.	Normality: the residuals are normally distributed 
+4.	Homoscedasticity: the variance of the residuals is constant 
+5. No multicollinearity: the independent variables are not highly correlated with each other 
 
 
+* Day of Week chart
+    * Weekend vs not
+![](images/hour_count.png)
+![](images/hour_pt.png)
 
-![](images/Attacks_Over_Time.png)
-![](images/Deaths_Over_Time.png)
-**_Figures 1 & 2: Number of attacks and number of deaths from 1970 to 2017_**
+* Time of Day
+    * Rush
 
-Here, we can see both deaths and attacks have been increasing over time, with both peaking in 2014. Additionally, both rose sharply after 2010. However we do see some decline in recent years. After analysing the dataset and conducting outside research, the decrease in both activities and fatalities is credited toward the improving situation in Iraq and success in fighting ISIS and Boko Haram. In total, there have been over 414,000 documented deaths from terrorism.
-
-| Country                     | Fatalities |
-|-----------------------------|------------|
-| Iraq                        | 78,591      |
-| Afghanistan                 | 39,384      |
-| Pakistan                    | 23,849      |
-| Nigeria                     | 22,682      |
-| India                       | 19,865      |
+* Speed Limit
+    * Higher proportion at faster speeds
 
 
-### Top 20 Countries with the Highest Terrorism Fatalities
-![](images/terror_map.png)
-**_Figure 3: Folium Countries by Top Fatalities_**
+## Inferential Logistic Regression
 
-Iraq has the highest fatalities of terrorist attacks by a significant margin, almost double that of Afganistan. Countries such as Iraq and Afganistan have experienced recent massive increases, while others have a long history, such as India and Pakistan.
+* 
 
-### Fatalities Breakdown
-![](images/total_region_deaths.png)
-![](images/region_groups.png)
-**_Figures 4 & 5: Regions by Top Fatalities_**
-
-When one thinks of terrorism, they often think of the large group killings that make the newspaper headlines, when it is in fact vastly more common in smaller numbers. In the following analysis, I wanted to look at two groups of fatalities compared with different variables in the dataset: region, type of terrorism, and the terrorist's target. For my fatality groups, I broke them down into death between 1 and 2 and the other 3 or greater. 
-* Attacks with 1-2 deaths account for 50,906 - 61% of all the fatality attacks
-* Attacks with 3 or more deaths account for 32,623 - 39% of all the fatality attacks
-
-| Fatality Breakdown | Amount of Attacks | Percent of Total |
-|--------------------|-------------------|------------------|
-| 1-2 Deaths         | 50,906            | 61%              |
-| 3-9 Deaths         | 23,393            | 28%              |
-| 10-29 Deaths       | 7,293              | 9%               |
-| >= 30 Deaths       | 1,937              | 2%               |
-
-
-![](images/total_target_deaths.png)
-![](images/target_groups.png)
-**_Figures 6 & 7: Types by Top Target_**
-
-
-![](images/total_type_deaths.png)
-![](images/type_groups.png)
-**_Figures 8 & 9: Types by Top Fatalities_**
-
-Definitions:
-* Assassination: Act whose primary objective is to kill one or more specific, prominent individuals
-* Armed Assault: Attack whose primary objective is to cause physical harm or death directly to human beings by use of a firearm, incendiary, or sharp instrument
-* Bombing / Explosion: Can include either high or low explosives
-* Hostage Taking: Primary objective is to take control of hostages for the purpose of achieving a political objective through concessions or through disruption of normal operations
 
 
 ## Conclusion & Future Direction

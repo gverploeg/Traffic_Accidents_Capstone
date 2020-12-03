@@ -26,11 +26,11 @@ def groupby_func(df, group, agg_column, modifier = 'count'):
     elif modifier == 'count':
         return df.groupby(group)[agg_column].count().reset_index()
 
-def plots_with_severity_groups(df1, df2, title, save_loc):
+def plots_with_severity_groups(df1, df2, ylab, title, save_loc):
     # save_loc
     plt.style.use('ggplot')
     fig, ax = plt.subplots(1, figsize=(15, 6))
-    bar_width = 0.8
+    bar_width = 0.5
     x1 = df1.iloc[:,0]
     x2 = df2.iloc[:,0]
     y1 = df1.iloc[:,1]
@@ -38,11 +38,29 @@ def plots_with_severity_groups(df1, df2, title, save_loc):
     ax.bar(x1, y1, color='royalblue', width=bar_width, align='edge', label='Minor')
     ax.bar(x2, y2, color='tomato', width=-bar_width, align='edge', label='Severe')
     plt.xticks(rotation=45, fontsize=14, horizontalalignment='center')
-    ax.set_ylabel("Ratio of Attacks", fontsize=15)
+    ax.set_ylabel(ylab, fontsize=15)
     ax.set_title(title, fontsize=18)
     fig.tight_layout()
     ax.legend()
-    plt.savefig(save_loc, bbox_inches = 'tight')
+    plt.savefig(save_loc, dpi=150, bbox_inches = 'tight')
+
+def plots_with_severity_groups_ratios(df1, df2, ylab, title, save_loc):
+    # save_loc
+    plt.style.use('ggplot')
+    fig, ax = plt.subplots(1, figsize=(15, 6))
+    bar_width = 0.5
+    x1 = df1.iloc[:,0]
+    x2 = df2.iloc[:,0]
+    y1 = df1.iloc[:,1]
+    y2 = df2.iloc[:,1]
+    ax.bar(x1, (y1/(y1+y2)), color='royalblue', width=bar_width, align='edge', label='Minor')
+    ax.bar(x2, (y2/(y1+y2)), color='tomato', width=-bar_width, align='edge', label='Severe')
+    plt.xticks(rotation=45, fontsize=14, horizontalalignment='center')
+    ax.set_ylabel(ylab, fontsize=15)
+    ax.set_title(title, fontsize=18)
+    fig.tight_layout()
+    ax.legend()
+    plt.savefig(save_loc, dpi=150, bbox_inches = 'tight')
 
 
 if __name__ == '__main__':
@@ -57,15 +75,27 @@ if __name__ == '__main__':
     # condition2 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Speed_limit'] < 60)]
     # geographic_plot(condition2, 'yellow', 'Severity of Low Speed Limits', 'Black')
 
-    condition3 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 2)]
-    geographic_plot(condition3, 'red', 'Severity of Rural Areas', 'Black')
+    # condition3 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 0)]
+    # geographic_plot(condition3, 'red', 'Severity of Rural Areas', 'Black')
 
-    condition4 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 1)]
-    geographic_plot(condition4, 'red', 'Severity of Urban Areas', 'Black')
+    # condition4 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 1)]
+    # geographic_plot(condition4, 'red', 'Severity of Urban Areas', 'Black')
 
     # Plot Severe/ Non Severe Ratios with regards to feature
-    not_severe = accident_df[(accident_df['Accident_Severity'] == 0)]
-    is_severe = accident_df[(accident_df['Accident_Severity'] == 1)]
+    not_severe = acc_df[(acc_df['Accident_Severity'] == 0)]
+    is_severe = acc_df[(acc_df['Accident_Severity'] == 1)]
+
+    # Plot Time of Day Counts and Percentages
+    tm_0 = not_severe.groupby(['Hour_of_Day'])['Accident_Index'].count().reset_index()
+    tm_1 = is_severe.groupby(['Hour_of_Day'])['Accident_Index'].count().reset_index()
+
+    plots_with_severity_groups(tm_0, tm_1, "Number of Accidents", 'Accidents By Hour', '../images/hour_count.png')
+    plots_with_severity_groups_ratios(tm_0, tm_1, "Percent of Accidents", 'Percentage of Accidents By Hour', '../images/hour_pt.png')
+
+
+
+
+
 
     
     plt.show()
