@@ -11,16 +11,7 @@ The goal of this repository is to help emergency services identify the key eleme
 
 Data is made up of two datasets that recorded traffic accidents around the UK from 2009-2011 and 2012-2014. There are over 900,000 records and over 30 different features.
 
-Features are broken down into Categorical and Numerical Data. Below are some categorical breakdowns:
-
-* Road Surface: Dry, Wet or damp, Snow, Frost or ice, Flood over 3cm. deep, Oil or diesel
-* Weather: Fine no high winds, Raining no high winds, Snowing no high winds, Fine + high winds, Fog or mist
-* Light Conditions: Daylight, Darkness - lights lit, Darkness - lights unlit
-* Pedestrian Crossing Physical: Zebra, Footbridge or subway, Pedestrian phase at traffic signal junction
-* Road Type: Roundabout, One way street, Dual carriageway, Single carriageway, Slip road
-
-
-After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, The breakdown for Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severee (0). The table below shows my sorted and filtered dataframe. 
+Features are broken down into Categorical and Numerical Data. After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, The breakdown for Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severee (0). In  picking Accident Severity as my target, I concluded that I would need to exlude certain features from my analysis that would result from the accident already taking place such as Number of Casualties, Number of Vehicles, and whether attended the scene. The table below shows my sorted and filtered dataframe. 
 
 |   | Accident_Index | Police_Force | Longitude | Latitude  | Accident_Severity | Number_of_Vehicles | Number_of_Casualties | Date   | Time  | Road_Type          | Speed_limit | Weather_Conditions      | Pedestrian_Crossing-Physical_Facilities     | Light_Conditions               | Road_Surface_Conditions | Urban_or_Rural_Area | Did_Police_Officer_Attend_Scene_of_Accident |
 |---|----------------|--------------|-----------|-----------|-------------------|--------------------|----------------------|--------|-------|--------------------|-------------|-------------------------|---------------------------------------------|--------------------------------|-------------------------|---------------------|---------------------------------------------|
@@ -91,8 +82,10 @@ Standarized the data in order to be able to compare coefficients
 
 * Perform a predictive model to determine future accidents
 
-* Continue training this model 
+* Continue training this model to improve its accuracy - an R-squared of 0.02 is not enough
 
 * Compare feature importance with other models such as random forest and XGBoost
+
+* Look into other features as target variables such as Number of Casualties or Number of Vehicles to see if it improves the model. 
 
 
