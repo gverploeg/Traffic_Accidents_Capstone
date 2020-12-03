@@ -158,8 +158,10 @@ if __name__ == '__main__':
     ac_df.drop(['Weather_Conditions'],axis=1,inplace=True)
     ac_df.drop(['Weather_Conditions_Fine without high winds'],axis=1,inplace=True)
 
+    print(ac_df.groupby('Urban_or_Rural_Area').count()['Accident_Index'])
+
     # Save as CSV
-    ac_df.to_csv('../data/cleaned___data.csv')
+    ac_df.to_csv('../data/cleaned_data.csv')
 
     # print(ac_df.head(5))
 

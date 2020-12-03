@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from cleaned_data import *
 
-def geographic_plot(conditon, color, title, facecolor):
+def geographic_plot(conditon, color, title, facecolor, save_loc):
     ''' Create Latitude Longitude plot of specific features'''
     fig, ax = plt.subplots(1, figsize=(10,15))
     conditon.plot(kind='scatter', x='Longitude',y ='Latitude',
@@ -11,7 +11,7 @@ def geographic_plot(conditon, color, title, facecolor):
                 s=.1, alpha=.9, subplots=True, ax=ax)
     ax.set_title(title)
     ax.set_facecolor(facecolor)
-    fig.tight_layout()
+    plt.savefig(save_loc, dpi=150, bbox_inches = 'tight')
 
 def groupby_func(df, group, agg_column, modifier = 'count'):
     '''
@@ -75,11 +75,11 @@ if __name__ == '__main__':
     # condition2 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Speed_limit'] < 60)]
     # geographic_plot(condition2, 'yellow', 'Severity of Low Speed Limits', 'Black')
 
-    # condition3 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 0)]
-    # geographic_plot(condition3, 'red', 'Severity of Rural Areas', 'Black')
+    condition3 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 0)]
+    geographic_plot(condition3, 'red', 'Severity of Rural Areas', 'Black', '../images/rural_map.png')
 
-    # condition4 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 1)]
-    # geographic_plot(condition4, 'red', 'Severity of Urban Areas', 'Black')
+    condition4 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 1)]
+    geographic_plot(condition4, 'red', 'Severity of Urban Areas', 'Black', '../images/urban_map.png')
 
     # Plot Severe/ Non Severe Ratios with regards to feature
     not_severe = acc_df[(acc_df['Accident_Severity'] == 0)]
@@ -89,9 +89,8 @@ if __name__ == '__main__':
     tm_0 = not_severe.groupby(['Hour_of_Day'])['Accident_Index'].count().reset_index()
     tm_1 = is_severe.groupby(['Hour_of_Day'])['Accident_Index'].count().reset_index()
 
-    plots_with_severity_groups(tm_0, tm_1, "Number of Accidents", 'Accidents By Hour', '../images/hour_count.png')
-    plots_with_severity_groups_ratios(tm_0, tm_1, "Percent of Accidents", 'Percentage of Accidents By Hour', '../images/hour_pt.png')
-
+    # plots_with_severity_groups(tm_0, tm_1, "Number of Accidents", 'Accidents By Hour', '../images/hour_count.png')
+    # plots_with_severity_groups_ratios(tm_0, tm_1, "Percent of Accidents", 'Percentage of Accidents By Hour', '../images/hour_pt.png')
 
 
 
