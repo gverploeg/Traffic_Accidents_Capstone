@@ -83,6 +83,10 @@ Standarized the data in order to be able to compare coefficients
 
 Pseudo R-squared: 0.020
 
+* Above, the positive scores indicate a feature that predicts class 1 "Severe", whereas the negative scores indicate a feature that predicts class 0 "Minor"
+* With the features that are one-hot encoded, you’re comparing to the feature dropped. 
+* When you’re getting off of a highway (slip road), if you get in an accident, it is much less likely to be severe. Thus, the odds of the accident being severe in the Road_type Group group is 0.463 times that of the accident being severe in the Single Carriageway group, when controlling for all other variables.
+
 
 
 ## Conclusion & Future Direction
