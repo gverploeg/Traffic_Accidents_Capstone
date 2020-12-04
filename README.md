@@ -11,7 +11,7 @@ The goal of this repository is to help emergency services identify the key eleme
 
 This data is made up of two datasets that recorded traffic accidents around the UK from 2009-2011 and 2012-2014. There are over 900,000 records and over 30 different features.
 
-The features are broken down into Categorical and Numerical Data. After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, the breakdown of Accident_Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severe / minor (0). In picking Accident Severity as my target, I concluded that I would need to exclude certain features from my analysis that would result from the accident already taking place such as Number of Casualties, Number of Vehicles, and whether Police attended the scene. The table below shows my sorted and filtered dataframe. 
+The features are broken down into Categorical and Numerical Data. After combining datasets and dealing with nulls, I looked at Accident Severity as my target variable. Initially, the breakdown of Accident_Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severe / minor (0). In picking Accident Severity as my target, I concluded that I would need to exclude certain features from my analysis that would result from the accident already taking place such as Number of Casualties, Number of Vehicles, and whether Police attended the scene. The table below shows my sorted and filtered dataframe. 
 
 |   | Accident_Index | Police_Force | Longitude | Latitude  | Accident_Severity | Number_of_Vehicles | Number_of_Casualties | Date   | Time  | Road_Type          | Speed_limit | Weather_Conditions      | Pedestrian_Crossing-Physical_Facilities     | Light_Conditions               | Road_Surface_Conditions | Urban_or_Rural_Area | Did_Police_Officer_Attend_Scene_of_Accident |
 |---|----------------|--------------|-----------|-----------|-------------------|--------------------|----------------------|--------|-------|--------------------|-------------|-------------------------|---------------------------------------------|--------------------------------|-------------------------|---------------------|---------------------------------------------|
@@ -42,15 +42,15 @@ Applied Feature Engineering to the Time column, where the hour was extracted and
 ![](images/day_pt.png)
 
 Used Day of Week to create a binary Weekend feature
-* Lower proportion during Saturday and Sunday
+* Higher proportion during Saturday and Sunday
 
 
  Urban             |  Rural
 :-------------------------:|:-------------------------:
 ![](images/urban_map.png)  |  ![](images/rural_map.png)
 
-Here, the amount of Severe accidents are almost equal in amount. Severe Rural accidents hold a higher percentage of total accidents compared to Severe Urban accidents. 
-Speed Limit shares a similar trend, that as the limit increase, so does the proportion of Severe Accidents
+More accidents in Urban areas, but there is higher proportion of severe accidents in rural areas.
+Speed Limit shares a similar trend, that as the limit increase, so does the proportion of Severe Accidents.
 
 ## Inferential Logistic Regression
 
@@ -84,15 +84,15 @@ Additional Steps:
 
 Pseudo R-squared: 0.020
 
-* Above, the positive scores indicate a feature that predicts class 1 "Severe", whereas the negative scores indicate a feature that predicts class 0 "Minor"
+* Above, the positive scores indicate a feature that influences class 1 "Severe", whereas the negative scores indicate a feature that influences class 0 "Minor"
 * With the features that are one-hot encoded, you’re comparing to the feature dropped. 
-* When you’re getting off of a highway (slip road), if you get in an accident, it is much less likely to be severe. Thus, the odds of the accident being severe in the Road_type Group group is 0.463 times that of the accident being severe in the Single Carriageway group, when controlling for all other variables.
+* When you’re getting off of a highway (slip road), if you get in an accident, it is much more likely to be  minor than to be severe. Thus, the odds of the accident being severe in the Road_type Group group is 0.463 times that of the accident being severe in the Single Carriageway group, when controlling for all other variables.
 
 
 
 ## Conclusion & Future Direction
 
-* Continue training this model to improve its performance and accuracy - an R-squared of 0.02 is not enough
+* Continue training this model to improve its performance and maximize its potential - an R-squared of 0.02 is not enough
     * Regularize, manipulating features
 
 * Compare feature importance with other models such as random forest and XGBoost
