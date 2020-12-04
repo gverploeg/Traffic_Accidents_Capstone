@@ -85,8 +85,9 @@ Additional Steps:
 Pseudo R-squared: 0.020
 
 * Above, the positive scores indicate a feature that influences class 1 "Severe", whereas the negative scores indicate a feature that influences class 0 "Minor"
+* The further from zero, the more impact it has in determining severe or minor
 * With the features that are one-hot encoded, you’re comparing to the feature dropped. 
-* When you’re getting off of a highway (slip road), if you get in an accident, it is much more likely to be  minor than to be severe. Thus, the odds of the accident being severe in the Road_type group is 0.463 times that of the accident being severe in the Single Carriageway group, when controlling for all other variables.
+
 
 
 
