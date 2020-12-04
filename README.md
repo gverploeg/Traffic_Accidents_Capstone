@@ -82,7 +82,7 @@ Standarized the data in order to be able to compare coefficients
 
 * Perform a predictive model to determine future accidents
 
-* Continue training this model to improve its accuracy - an R-squared of 0.02 is not enough
+* Continue training this model to improve its performance and accuracy - an R-squared of 0.02 is not enough
 
 * Compare feature importance with other models such as random forest and XGBoost
 
