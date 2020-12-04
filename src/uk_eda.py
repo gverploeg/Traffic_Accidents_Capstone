@@ -32,7 +32,7 @@ def plots_with_severity_groups(df1, df2, ylab, title, save_loc):
     # save_loc
     plt.style.use('ggplot')
     fig, ax = plt.subplots(1, figsize=(15, 6))
-    bar_width = 0.4
+    bar_width = 0.3
     x1 = df1.iloc[:,0]
     x2 = df2.iloc[:,0]
     y1 = df1.iloc[:,1]
@@ -50,7 +50,7 @@ def plots_with_severity_groups_ratios(df1, df2, ylab, title, save_loc):
     # save_loc
     plt.style.use('ggplot')
     fig, ax = plt.subplots(1, figsize=(15, 6))
-    bar_width = 0.4
+    bar_width = 0.3
     x1 = df1.iloc[:,0]
     x2 = df2.iloc[:,0]
     y1 = df1.iloc[:,1]
@@ -61,9 +61,17 @@ def plots_with_severity_groups_ratios(df1, df2, ylab, title, save_loc):
     ax.set_ylabel(ylab, fontsize=20)
     ax.set_title(title, fontsize=22)
     fig.tight_layout()
-    ax.legend()
     plt.savefig(save_loc, dpi=150, bbox_inches = 'tight')
 
+def coef_chart(df, color1, color2, save_loc):
+    plt.rcParams["figure.figsize"] = (15,4)
+    df['positive'] = df['values'] > 0
+    df['values'].plot(kind='barh',
+                             color=df.positive.map({True: color1, False: color2}))
+    plt.yticks(fontsize = 20)
+    plt.xticks(fontsize = 20)
+    plt.tight_layout()
+    plt.savefig(save_loc, dpi=150)
 
 if __name__ == '__main__':
 
@@ -78,12 +86,12 @@ if __name__ == '__main__':
     # geographic_plot(condition2, 'yellow', 'Severity of Low Speed Limits', 'Black')
 
     condition3 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 0)]
-    geographic_plot(condition3, 'red', 'Severity of Rural Areas', 'Black', '../images/rural_map.png')
+    # geographic_plot(condition3, 'red', 'Severity of Rural Areas', 'Black', '../images/rural_map.png')
 
     condition4 = acc_df[(acc_df['Accident_Severity'] == 1) & (acc_df['Urban_or_Rural_Area'] == 1)]
-    geographic_plot(condition4, 'red', 'Severity of Urban Areas', 'Black', '../images/urban_map.png')
+    # geographic_plot(condition4, 'red', 'Severity of Urban Areas', 'Black', '../images/urban_map.png')
 
-    # Plot Severe/ Non Severe Ratios with regards to feature
+    # Severe/ Non Severe Ratios with regards to feature
     not_severe = acc_df[(acc_df['Accident_Severity'] == 0)]
     is_severe = acc_df[(acc_df['Accident_Severity'] == 1)]
 
@@ -91,13 +99,46 @@ if __name__ == '__main__':
     tm_0 = not_severe.groupby(['Hour_of_Day'])['Accident_Index'].count().reset_index()
     tm_1 = is_severe.groupby(['Hour_of_Day'])['Accident_Index'].count().reset_index()
 
-    plots_with_severity_groups(tm_0, tm_1, "Number of Accidents", 'Accidents By Hour', '../images/hour_count.png')
-    plots_with_severity_groups_ratios(tm_0, tm_1, "Percent of Accidents", 'Percentage of Accidents By Hour', '../images/hour_pt.png')
+    # plots_with_severity_groups(tm_0, tm_1, "Number of Accidents", 'Accidents By Hour', '../images/hour_count.png')
+    # plots_with_severity_groups_ratios(tm_0, tm_1, "Percent of Accidents", 'Percentage of Accidents By Hour', '../images/hour_pt.png')
 
 
-    # Plot Time of Day Counts and Percentages
+    # Plot Day of Week and Percentages
+    dy_0 = not_severe.groupby(['Day_of_Week'])['Accident_Index'].count().reset_index()
+    dy_1 = is_severe.groupby(['Day_of_Week'])['Accident_Index'].count().reset_index()
 
+    # plots_with_severity_groups(dy_0, dy_1, "Number of Accidents", 'Accidents By Day of Week', '../images/day_count.png')
+    # plots_with_severity_groups_ratios(dy_0, dy_1, "Percent of Accidents", 'Percentage of Accidents By Day', '../images/day_pt.png')
 
-
+    #  Plot Coeffs of Logit Model
+    # details = { 
+    # 'Features' : ['Road Type - Slip Road', 'Road Type - Roundabout', 'Light Conditions - Dark with No street lighting',
+    # 'Road Surface Conditions - Frost/Ice', 'Road Type - Dual Carriageway'], 
+    # 'Coeff' : [-0.769, -0.584, 0.421, -0.385, -0.376]
+    # } 
+    # coef = pd.DataFrame([[-0.769], [-0.584], [0.421], [-0.385], [-0.376]],
+    #                 index=['Road Type - Slip Road', 'Road Type - Roundabout',
+    #                  'Light Conditions - Dark with No street lighting', 'Road Surface Conditions - Frost/Ice',
+    #                  'Road Type - Dual Carriageway'],
+    #                 columns=['values'])
     
+    # coef['positive'] = coef['values'] > 0
+    
+    # coef['values'].plot(kind='barh',
+    #                          color=coef.positive.map({True: 'tomato', False: 'royalblue'}))
+
+    # # creating a Dataframe object  
+    # coeff_char = pd.DataFrame(details) 
+  
+    # coeff_char.plot.barh(color=bar_color(coeff_char,'tomato','royalblue'))
+    
+    coef = pd.DataFrame([[-0.769], [-0.584], [0.421], [-0.385], [-0.376]],
+                    index=['Road Type - Slip Road', 'Road Type - Roundabout',
+                     'Light Conditions - Dark with No street lighting', 'Road Surface Conditions - Frost/Ice',
+                     'Road Type - Dual Carriageway'],
+                    columns=['values'])
+    coef_chart(coef, 'tomato', 'royalblue', '../images/coeffs.png')
+
+
+
     plt.show()

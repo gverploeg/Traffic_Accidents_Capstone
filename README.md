@@ -1,5 +1,5 @@
-![](images/cover_image.jpg)
 
+![](images/cover_image.jpg)  
 
 # United Kingdom Traffic Accidents and their Influencing Factors
 ## Background & Goal:
@@ -27,11 +27,9 @@ Start and see where outside research and intuition could take me
 Performed Feature Engineering with regards to Inferential Regression
 
 Inferential Assumptions:
-1. Linearity: the relationship between the X and the y can be modeled linearly 
-2. Independence: the residuals should be independent from each other 
-3. Normality: the residuals are normally distributed 
-4. Homoscedasticity: the variance of the residuals is constant 
-5. No multicollinearity: the independent variables are not highly correlated with each other 
+1. Independence
+2. Normality 
+3. No multicollinearity: the independent variables are not highly correlated with each other 
 
 
 * Day of Week chart
@@ -50,6 +48,10 @@ Inferential Assumptions:
 ![](images/urban_map.png)  |  ![](images/rural_map.png)
 
 ## Inferential Logistic Regression
+
+
+
+
 
 Determined Multicolinearity with Variance Inflation Factor (VIF). As the name suggests, a variance inflation factor (VIF) quantifies how much the variance is inflated. But what variance? A variance inflation factor exists for each of the predictors in a multiple regression model. A VIF of 1 means that there is no correlation, while VIFs exceeding 10 are signs of serious multicollinearity requiring correction. In the data, I dropped Latitude and Longitude due to their high values, both exceeding 20. 
 
@@ -73,6 +75,8 @@ Standarized the data in order to be able to compare coefficients
 | Pedestrian_Crossing-Physical_Central refuge | 4     |
 | Road_Surface_Conditions_Snow                | 0.38  |
 | Road_Type_Dual carriageway                  | 0.37  |
+
+![](images/coeffs.png)
 
 * Pseudo R-squared: 0.020 
 * AIC:              383070.2290
