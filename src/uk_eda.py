@@ -11,6 +11,8 @@ def geographic_plot(conditon, color, title, facecolor, save_loc):
                 s=.1, alpha=.9, subplots=True, ax=ax)
     ax.set_title(title, fontsize=22)
     ax.set_facecolor(facecolor)
+    ax.yaxis.label.set_size(20)
+    ax.xaxis.label.set_size(20)
     plt.savefig(save_loc, dpi=150, bbox_inches = 'tight')
 
 def groupby_func(df, group, agg_column, modifier = 'count'):
@@ -30,7 +32,7 @@ def plots_with_severity_groups(df1, df2, ylab, title, save_loc):
     # save_loc
     plt.style.use('ggplot')
     fig, ax = plt.subplots(1, figsize=(15, 6))
-    bar_width = 0.5
+    bar_width = 0.4
     x1 = df1.iloc[:,0]
     x2 = df2.iloc[:,0]
     y1 = df1.iloc[:,1]
@@ -48,7 +50,7 @@ def plots_with_severity_groups_ratios(df1, df2, ylab, title, save_loc):
     # save_loc
     plt.style.use('ggplot')
     fig, ax = plt.subplots(1, figsize=(15, 6))
-    bar_width = 0.5
+    bar_width = 0.4
     x1 = df1.iloc[:,0]
     x2 = df2.iloc[:,0]
     y1 = df1.iloc[:,1]
@@ -93,6 +95,7 @@ if __name__ == '__main__':
     plots_with_severity_groups_ratios(tm_0, tm_1, "Percent of Accidents", 'Percentage of Accidents By Hour', '../images/hour_pt.png')
 
 
+    # Plot Time of Day Counts and Percentages
 
 
 
