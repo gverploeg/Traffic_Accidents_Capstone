@@ -5,13 +5,13 @@
 ## Background & Goal:
 Road Traffic Accidents (RTA)s are a major cause of death globally, leading to around 1.25 million deaths annually. In the United Kingdom, the UK Department of Transport [(gov.uk)](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data) provides detailed statistics about personal injury road accidents, vehicles and casualties involved. Most of the statistics are based on road accidents reported to the police (Stats19). 
 
-The goal of this repository is to help emergency services identify the key elements leading to severe accidents, helping staffing needs of where and when they are most needed. hopefully reducing tragedies and statistics alike.
+The goal of this repository is to help emergency services identify the key elements leading to severe accidents, helping determine staffing needs of where and when they are most needed. 
 
 ## Data:
 
-Data is made up of two datasets that recorded traffic accidents around the UK from 2009-2011 and 2012-2014. There are over 900,000 records and over 30 different features.
+This data is made up of two datasets that recorded traffic accidents around the UK from 2009-2011 and 2012-2014. There are over 900,000 records and over 30 different features.
 
-Features are broken down into Categorical and Numerical Data. After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, The breakdown for Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severe / minor (0). In  picking Accident Severity as my target, I concluded that I would need to exlude certain features from my analysis that would result from the accident already taking place such as Number of Casualties, Number of Vehicles, and whether attended the scene. The table below shows my sorted and filtered dataframe. 
+The features are broken down into Categorical and Numerical Data. After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, the breakdown of Accident_Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severe / minor (0). In picking Accident Severity as my target, I concluded that I would need to exclude certain features from my analysis that would result from the accident already taking place such as Number of Casualties, Number of Vehicles, and whether Police attended the scene. The table below shows my sorted and filtered dataframe. 
 
 |   | Accident_Index | Police_Force | Longitude | Latitude  | Accident_Severity | Number_of_Vehicles | Number_of_Casualties | Date   | Time  | Road_Type          | Speed_limit | Weather_Conditions      | Pedestrian_Crossing-Physical_Facilities     | Light_Conditions               | Road_Surface_Conditions | Urban_or_Rural_Area | Did_Police_Officer_Attend_Scene_of_Accident |
 |---|----------------|--------------|-----------|-----------|-------------------|--------------------|----------------------|--------|-------|--------------------|-------------|-------------------------|---------------------------------------------|--------------------------------|-------------------------|---------------------|---------------------------------------------|
@@ -56,7 +56,7 @@ Speed Limit shares a similar trend, that as the limit increase, so does the prop
 
 Determined Multicolinearity with Variance Inflation Factor (VIF). As the name suggests, a variance inflation factor (VIF) quantifies how much the variance is inflated. A variance inflation factor exists for each of the predictors in a multiple regression model. A VIF of 1 means that there is no correlation, while VIFs exceeding 10 are signs of serious multicollinearity requiring correction. In the data, I dropped Latitude and Longitude due to their high values, both exceeding 20. 
 
-Due to the abudance of categorical features, there are several columns that need to be one-hot encoded or changed to a binary value in order to utilize thee features. By dropping one of the one-hot encoded columns from each categorical feature, we ensure there are no "reference" columns — the remaining columns become linearly independent. These features included: 
+Due to the abudance of categorical features, there are several columns that need to be one-hot encoded or changed to a binary value in order to utilize there features. By dropping one of the one-hot encoded columns from each categorical feature, we ensure there are no "reference" columns — the remaining columns become linearly independent. These features included: 
 
 * Road Surface: Dry, Wet or damp, Snow, Frost or ice, Flood over 3cm. deep, Oil or diesel
 * Road Type: Roundabout, One way street, Dual carriageway, Single carriageway, Slip road
@@ -64,9 +64,10 @@ Due to the abudance of categorical features, there are several columns that need
 * Light Conditions: Daylight, Darkness - lights lit, Darkness - lights unlit
 * Pedestrian Crossing Physical: Zebra, Footbridge or subway, Pedestrian phase at traffic signal junction
 
-Balanced data so Severe and Minor were equal
-
-Standarized the data in order to be able to compare coefficients
+Additional Steps:
+* Balanced data so Severe and Minor were equal
+* Standarized the data in order to be able to compare coefficients
+    * Only standarized Speed Limit
 
 
 ### Logit Model for Feature Importance
@@ -92,10 +93,11 @@ Pseudo R-squared: 0.020
 ## Conclusion & Future Direction
 
 * Continue training this model to improve its performance and accuracy - an R-squared of 0.02 is not enough
+    * Regularize, manipulating features
 
 * Compare feature importance with other models such as random forest and XGBoost
 
-* Look into other features as target variables such as Number of Casualties or Number of Vehicles to see if it improves the model. 
+* Look into other features as potential target variables such as Number of Casualties or Number of Vehicles to see if it improves the model. 
 
 * Once model improves, perform a predictive regression to determine future accidents
 
