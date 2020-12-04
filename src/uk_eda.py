@@ -111,26 +111,7 @@ if __name__ == '__main__':
     # plots_with_severity_groups_ratios(dy_0, dy_1, "Percent of Accidents", 'Percentage of Accidents By Day', '../images/day_pt.png')
 
     #  Plot Coeffs of Logit Model
-    # details = { 
-    # 'Features' : ['Road Type - Slip Road', 'Road Type - Roundabout', 'Light Conditions - Dark with No street lighting',
-    # 'Road Surface Conditions - Frost/Ice', 'Road Type - Dual Carriageway'], 
-    # 'Coeff' : [-0.769, -0.584, 0.421, -0.385, -0.376]
-    # } 
-    # coef = pd.DataFrame([[-0.769], [-0.584], [0.421], [-0.385], [-0.376]],
-    #                 index=['Road Type - Slip Road', 'Road Type - Roundabout',
-    #                  'Light Conditions - Dark with No street lighting', 'Road Surface Conditions - Frost/Ice',
-    #                  'Road Type - Dual Carriageway'],
-    #                 columns=['values'])
-    
-    # coef['positive'] = coef['values'] > 0
-    
-    # coef['values'].plot(kind='barh',
-    #                          color=coef.positive.map({True: 'tomato', False: 'royalblue'}))
-
-    # # creating a Dataframe object  
-    # coeff_char = pd.DataFrame(details) 
-  
-    # coeff_char.plot.barh(color=bar_color(coeff_char,'tomato','royalblue'))
+   
     
     coef = pd.DataFrame([[-0.769], [-0.584], [0.421], [-0.385], [-0.376]],
                     index=['Road Type - Slip Road', 'Road Type - Roundabout',
