@@ -73,7 +73,7 @@ Additional Steps:
 ### Logit Model for Feature Importance
 ![](images/coeffs.png)
 
-| Features                                        | Coeff - Log Odds | Coeff - Regular Odds |
+| Features                                        | Coeff - Log Odds | Coeff - Odds |
 |-------------------------------------------------|------------------|----------------------|
 | Road Type - Dual Carriageway                    | -0.376           | 0.686                |
 | Road Surface Conditions - Frost/Ice             | -0.385           | 0.68                 |
@@ -86,7 +86,7 @@ Pseudo R-squared: 0.020
 
 * Above, the positive scores indicate a feature that influences class 1 "Severe", whereas the negative scores indicate a feature that influences class 0 "Minor"
 * With the features that are one-hot encoded, you’re comparing to the feature dropped. 
-* When you’re getting off of a highway (slip road), if you get in an accident, it is much more likely to be  minor than to be severe. Thus, the odds of the accident being severe in the Road_type Group group is 0.463 times that of the accident being severe in the Single Carriageway group, when controlling for all other variables.
+* When you’re getting off of a highway (slip road), if you get in an accident, it is much more likely to be  minor than to be severe. Thus, the odds of the accident being severe in the Road_type group is 0.463 times that of the accident being severe in the Single Carriageway group, when controlling for all other variables.
 
 
 
