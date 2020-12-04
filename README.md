@@ -11,7 +11,7 @@ The goal of this repository is to help emergency services identify the key eleme
 
 Data is made up of two datasets that recorded traffic accidents around the UK from 2009-2011 and 2012-2014. There are over 900,000 records and over 30 different features.
 
-Features are broken down into Categorical and Numerical Data. After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, The breakdown for Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severee (0). In  picking Accident Severity as my target, I concluded that I would need to exlude certain features from my analysis that would result from the accident already taking place such as Number of Casualties, Number of Vehicles, and whether attended the scene. The table below shows my sorted and filtered dataframe. 
+Features are broken down into Categorical and Numerical Data. After combining datasets and dealing with nulls, I wanted to look at Accident Severity as my target variable. Initially, The breakdown for Severity was Fatal, Serious, Slight, so I merged that into a binary severe (1) or not severe / minor (0). In  picking Accident Severity as my target, I concluded that I would need to exlude certain features from my analysis that would result from the accident already taking place such as Number of Casualties, Number of Vehicles, and whether attended the scene. The table below shows my sorted and filtered dataframe. 
 
 |   | Accident_Index | Police_Force | Longitude | Latitude  | Accident_Severity | Number_of_Vehicles | Number_of_Casualties | Date   | Time  | Road_Type          | Speed_limit | Weather_Conditions      | Pedestrian_Crossing-Physical_Facilities     | Light_Conditions               | Road_Surface_Conditions | Urban_or_Rural_Area | Did_Police_Officer_Attend_Scene_of_Accident |
 |---|----------------|--------------|-----------|-----------|-------------------|--------------------|----------------------|--------|-------|--------------------|-------------|-------------------------|---------------------------------------------|--------------------------------|-------------------------|---------------------|---------------------------------------------|
@@ -32,28 +32,29 @@ Inferential Assumptions:
 3. No multicollinearity: the independent variables are not highly correlated with each other 
 
 
-* Day of Week chart
-    * Weekend vs not
 ![](images/hour_count.png)
 ![](images/hour_pt.png)
 
-* Time of Day
-    * Rush
+Applied Feature Engineering to the Time column, where the hour was extracted and used to create a binary Rush Hour feature, which in the UK is generally considered to be between 07:00-10:00 and 16:00-19:00
+* Appears to show lower proportion during typical busy hours
 
-* Speed Limit
-    * Higher proportion at faster speeds
+![](images/day_count.png)
+![](images/day_pt.png)
+
+Used Day of Week to create a binary Weekend feature
+* Lower proportion during Saturday and Sunday
+
 
  Urban             |  Rural
 :-------------------------:|:-------------------------:
 ![](images/urban_map.png)  |  ![](images/rural_map.png)
 
+Here, the amount of Severe accidents are almost equal in amount. Severe Rural accidents hold a higher percentage of total accidents compared to Severe Urban accidents. 
+Speed Limit shares a similar trend, that as the limit increase, so does the proportion of Severe Accidents
+
 ## Inferential Logistic Regression
 
-
-
-
-
-Determined Multicolinearity with Variance Inflation Factor (VIF). As the name suggests, a variance inflation factor (VIF) quantifies how much the variance is inflated. But what variance? A variance inflation factor exists for each of the predictors in a multiple regression model. A VIF of 1 means that there is no correlation, while VIFs exceeding 10 are signs of serious multicollinearity requiring correction. In the data, I dropped Latitude and Longitude due to their high values, both exceeding 20. 
+Determined Multicolinearity with Variance Inflation Factor (VIF). As the name suggests, a variance inflation factor (VIF) quantifies how much the variance is inflated. A variance inflation factor exists for each of the predictors in a multiple regression model. A VIF of 1 means that there is no correlation, while VIFs exceeding 10 are signs of serious multicollinearity requiring correction. In the data, I dropped Latitude and Longitude due to their high values, both exceeding 20. 
 
 Due to the abudance of categorical features, there are several columns that need to be one-hot encoded or changed to a binary value in order to utilize thee features. By dropping one of the one-hot encoded columns from each categorical feature, we ensure there are no "reference" columns — the remaining columns become linearly independent. These features included: 
 
@@ -63,28 +64,28 @@ Due to the abudance of categorical features, there are several columns that need
 * Light Conditions: Daylight, Darkness - lights lit, Darkness - lights unlit
 * Pedestrian Crossing Physical: Zebra, Footbridge or subway, Pedestrian phase at traffic signal junction
 
-Balanced data so Severe and Non-Severe were equal
+Balanced data so Severe and Minor were equal
 
 Standarized the data in order to be able to compare coefficients
 
 
-| Feature                                     | Coeff |
-|---------------------------------------------|-------|
-| Road_Type_Slip road                         | -0.7  |
-| Road_Type_Roundabout                        | -0.58 |
-| Pedestrian_Crossing-Physical_Central refuge | 4     |
-| Road_Surface_Conditions_Snow                | 0.38  |
-| Road_Type_Dual carriageway                  | 0.37  |
-
+### Logit Model for Feature Importance
 ![](images/coeffs.png)
 
-* Pseudo R-squared: 0.020 
-* AIC:              383070.2290
-* BIC:              383386.7042
+| Features                                        | Coeff - Log Odds | Coeff - Regular Odds |
+|-------------------------------------------------|------------------|----------------------|
+| Road Type - Dual Carriageway                    | -0.376           | 0.686                |
+| Road Surface Conditions - Frost/Ice             | -0.385           | 0.68                 |
+| Light Conditions - Dark with No street lighting | 0.421            | 1.523                |
+| Road Type - Roundabout                          | -0.584           | 0.557                |
+| Road Type - Slip Road                           | -0.769           | 0.463                |
+
+
+Pseudo R-squared: 0.020
+
+
 
 ## Conclusion & Future Direction
-
-* Perform a predictive model to determine future accidents
 
 * Continue training this model to improve its performance and accuracy - an R-squared of 0.02 is not enough
 
@@ -92,4 +93,5 @@ Standarized the data in order to be able to compare coefficients
 
 * Look into other features as target variables such as Number of Casualties or Number of Vehicles to see if it improves the model. 
 
+* Once model improves, perform a predictive regression to determine future accidents
 
